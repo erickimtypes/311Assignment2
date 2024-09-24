@@ -242,7 +242,7 @@ class SayingsMap {
         return this.englishMap.has(word) ? Array.from(this.englishMap.get(word)) : [];
     }
 
-    // Method to return the first saying in the map (smallest Hawaiian word)
+    /* // Method to return the first saying in the map (smallest Hawaiian word)
     first() {
         const sortedKeys = [...this.sayingMap.keys()].sort(); // Sort the keys (Hawaiian text)
         return this.sayingMap.get(sortedKeys[0]); // Return the first saying
@@ -252,5 +252,41 @@ class SayingsMap {
     last() {
         const sortedKeys = [...this.sayingMap.keys()].sort(); // Sort the keys (Hawaiian text)
         return this.sayingMap.get(sortedKeys[sortedKeys.length - 1]); // Return the last saying
+    } */
+    
+    // Method to return the first saying in the map (smallest Hawaiian word)
+    first() {
+        const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
+        return this.hawaiianMap.get(sortedKeys[0]); // Return the first saying
+    }
+
+    // Method to return the last saying in the map (largest Hawaiian word)
+    last() {
+        const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
+        return this.hawaiianMap.get(sortedKeys[sortedKeys.length - 1]); // Return the last saying
     }
 }
+
+// Test code
+// Example Usage:
+const db = new SayingsMap();
+
+const saying1 = {
+    hawaiian: "Aloha kekahi i kekahi",
+    english: "Love one another"
+};
+
+const saying2 = {
+    hawaiian: "I ka ʻōlelo no ke ola",
+    english: "In language there is life"
+};
+
+db.addSaying(saying1);
+db.addSaying(saying2);
+
+console.log(db.first()); // Output: saying1 (first in Hawaiian alphabetical order)
+console.log(db.last());  // Output: saying2 (last in Hawaiian alphabetical order)
+// console.log(db.predecessor(saying2)); // Output: saying1 (predecessor of saying2)
+// console.log(db.successor(saying1)); // Output: saying2 (successor of saying1)
+console.log(db.searchHawaiian("Aloha")); // Output: [saying1]
+console.log(db.searchEnglish("language")); // Output: [saying2]
