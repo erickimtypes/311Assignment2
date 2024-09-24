@@ -53,10 +53,59 @@ class RedBlackTree {
 
     // Private method to balance the tree after inserting a new node.
     _balance(node) {
-        if (this._isRed(node.right) && !this._isRed(node.left)) node = this._rotateLeft(node);
-        if (this._isRed(node.left) && this._isRed(node.left.left)) node = this._rotateRight(node);
-        if (this._isRed(node.left) && this._isRed(node.right)) this._flipColors(node);
-        return node;
+        // Case 1: If the right child is red and the left child is black, perform a left rotation
+        if (this._isRed(node.right) && !this._isRed(node.left)) {
+            node = this._rotateLeft(node);
+            }
+
+        // Case 2: If the left child and its left child are red, perform a right rotation
+        if (this._isRed(node.left) && this._isRed(node.left.left)) {
+            node = this._rotateRight(node);
+            }
+    
+        // Case 3: If both children are red, flip the colors
+        if (this._isRed(node.left) && this._isRed(node.right)) {
+            this._flipColors(node);
+            }
+    
+        return node; // Return the balanced node
+    }
+    
+    // Private method to perform left rotation
+    _rotateLeft(node) {
+        let rightChild = node.right;
+        
+        node.right = rightChild.left;
+        rightChild.left = node;
+        rightChild.color = node.color; // Inherit the color of the parent node
+        node.color = 'RED'; // The original node becomes red after the rotation
+        
+        return rightChild; // Return the new root after rotation
+    }
+    
+    // Private method to perform right rotation
+    _rotateRight(node) {
+        let leftChild = node.left;
+        
+        node.left = leftChild.right;
+        leftChild.right = node;
+        leftChild.color = node.color; // Inherit the color of the parent node
+        node.color = 'RED'; // The original node becomes red after the rotation
+        
+        return leftChild; // Return the new root after rotation
+    }
+
+    // Private method to invert color on the node and its childrens'
+    _flipColors(node) {
+        node.color = 'RED';
+        node.left.color = 'BLACK';
+        node.right.color = 'BLACK';
+    }
+
+    // Private method to test for redness
+    _isRed(node) {
+        if (!node) return false; // Null nodes are considered black
+        return node.color === 'RED'; // True if node is red
     }
 
     // Public method to search for a saying by its Hawaiian phrase.
