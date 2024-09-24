@@ -108,6 +108,11 @@ class RedBlackTree {
         return node.color === 'RED'; // True if node is red
     }
 
+    // Public method to check if a saying with a given Hawaiian phrase exists in the tree.
+    member(hawaiian) {
+        return !!this.search(hawaiian);
+    }
+    
     // Public method to search for a saying by its Hawaiian phrase.
     search(hawaiian) {
         return this._search(this.root, hawaiian);
