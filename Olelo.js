@@ -56,18 +56,18 @@ class RedBlackTree {
         // Case 1: If the right child is red and the left child is black, perform a left rotation
         if (this._isRed(node.right) && !this._isRed(node.left)) {
             node = this._rotateLeft(node);
-            }
+        }
 
         // Case 2: If the left child and its left child are red, perform a right rotation
         if (this._isRed(node.left) && this._isRed(node.left.left)) {
             node = this._rotateRight(node);
-            }
+        }
     
         // Case 3: If both children are red, flip the colors
         if (this._isRed(node.left) && this._isRed(node.right)) {
             this._flipColors(node);
-            }
-    
+        }
+
         return node; // Return the balanced node
     }
     
