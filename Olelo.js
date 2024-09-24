@@ -152,15 +152,40 @@ class RedBlackTree {
     }
 
     // Method to get the next smaller saying in the tree (the node with the next smaller Hawaiian phrase).
-    predecessor(hawaiian) {
+    predecessor(hawaiian){
+        let current = this.root;
+        let predecessor = null;
 
+        while(current){
+            if(hawaiian > current.saying.hawaiian){ // Saying comes after current node
+                predecessor = current; 
+                current = current.right;
+            } else {
+                current = current.left;
+            }
+        }
+        
+        // Return the saying if it exist; Null if not.
+        return predecessor ? predecessor.saying : null;
     }
 
     // Method to get the next larger saying in the tree (the node with the next larger Hawaiian phrase).
-    successor(hawaiian) {
+    successor(hawaiian){
+        let current = this.root;
+        let successor = null;
 
+        while(current){
+            if(hawaiian < current.saying.hawiian){ // Saying comes before current node
+                successor = current;
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+
+        // Return the syaing if it exists; Null if not
+        return successor ? successor.saying : null;
     }
-}
 
 /* Inverted Index class, which allows for efficient searching of sayings containing a specific word.
 class InvertedIndex {
