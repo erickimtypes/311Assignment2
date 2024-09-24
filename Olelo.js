@@ -105,7 +105,7 @@ class RedBlackTree {
     }
 }
 
-// Inverted Index class, which allows for efficient searching of sayings containing a specific word.
+/* Inverted Index class, which allows for efficient searching of sayings containing a specific word.
 class InvertedIndex {
     constructor() {
         this.index = new Map(); // Initialize an empty map to store a word to sayings that contain that word
@@ -121,5 +121,41 @@ class InvertedIndex {
     // Search the index for sayings containing a specific word.
     search(word) {
 
+    }
+} */
+
+// Map-based approach to store sayings by Hawaiian and English words
+class SayingsMap {
+    constructor() {
+        this.hawaiianMap = new Map(); // Maps Hawaiian words to sayings
+        this.englishMap = new Map();  // Maps English words to sayings
+    }
+
+    // Method to add a saying to both maps
+    addSaying(saying) {
+        this._addToMap(saying.hawaiian, saying, this.hawaiianMap);
+        this._addToMap(saying.english, saying, this.englishMap);
+    }
+
+    // Helper method to add words to the map
+    _addToMap(text, saying, map) {
+        const words = text.split(/\s+/); // Split on spaces
+
+        words.forEach(word => {
+            if (!map.has(word)) {
+                map.set(word, new Set());
+            }
+            map.get(word).add(saying);
+        });
+    }
+
+    // Search for sayings that contain a specific Hawaiian word
+    searchHawaiian(word) {
+        return this.hawaiianMap.has(word) ? Array.from(this.hawaiianMap.get(word)) : [];
+    }
+
+    // Search for sayings that contain a specific English word
+    searchEnglish(word) {
+        return this.englishMap.has(word) ? Array.from(this.englishMap.get(word)) : [];
     }
 }
