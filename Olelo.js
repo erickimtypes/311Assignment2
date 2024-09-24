@@ -242,18 +242,6 @@ class SayingsMap {
         return this.englishMap.has(word) ? Array.from(this.englishMap.get(word)) : [];
     }
 
-    /* // Method to return the first saying in the map (smallest Hawaiian word)
-    first() {
-        const sortedKeys = [...this.sayingMap.keys()].sort(); // Sort the keys (Hawaiian text)
-        return this.sayingMap.get(sortedKeys[0]); // Return the first saying
-    }
-
-    // Method to return the last saying in the map (largest Hawaiian word)
-    last() {
-        const sortedKeys = [...this.sayingMap.keys()].sort(); // Sort the keys (Hawaiian text)
-        return this.sayingMap.get(sortedKeys[sortedKeys.length - 1]); // Return the last saying
-    } */
-    
     // Method to return the first saying in the map (smallest Hawaiian word)
     first() {
         const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
@@ -265,12 +253,13 @@ class SayingsMap {
         const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
         return this.hawaiianMap.get(sortedKeys[sortedKeys.length - 1]); // Return the last saying
     }
+
 }
 
 // Test code
-// Example Usage:
 const db = new SayingsMap();
 
+// Add some sayings to the database
 const saying1 = {
     hawaiian: "Aloha kekahi i kekahi",
     english: "Love one another"
@@ -284,9 +273,14 @@ const saying2 = {
 db.addSaying(saying1);
 db.addSaying(saying2);
 
+// Test first and last 
 console.log(db.first()); // Output: saying1 (first in Hawaiian alphabetical order)
 console.log(db.last());  // Output: saying2 (last in Hawaiian alphabetical order)
+
+// Test predecessor and successor
 // console.log(db.predecessor(saying2)); // Output: saying1 (predecessor of saying2)
 // console.log(db.successor(saying1)); // Output: saying2 (successor of saying1)
+
+// Test search
 console.log(db.searchHawaiian("Aloha")); // Output: [saying1]
 console.log(db.searchEnglish("language")); // Output: [saying2]
