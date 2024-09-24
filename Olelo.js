@@ -53,7 +53,10 @@ class RedBlackTree {
 
     // Private method to balance the tree after inserting a new node.
     _balance(node) {
-
+        if (this._isRed(node.right) && !this._isRed(node.left)) node = this._rotateLeft(node);
+        if (this._isRed(node.left) && this._isRed(node.left.left)) node = this._rotateRight(node);
+        if (this._isRed(node.left) && this._isRed(node.right)) this._flipColors(node);
+        return node;
     }
 
     // Public method to search for a saying by its Hawaiian phrase.
