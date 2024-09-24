@@ -186,6 +186,7 @@ class RedBlackTree {
         // Return the syaing if it exists; Null if not
         return successor ? successor.saying : null;
     }
+}
 
 /* Inverted Index class, which allows for efficient searching of sayings containing a specific word.
 class InvertedIndex {
@@ -239,5 +240,17 @@ class SayingsMap {
     // Search for sayings that contain a specific English word
     searchEnglish(word) {
         return this.englishMap.has(word) ? Array.from(this.englishMap.get(word)) : [];
+    }
+
+    // Method to return the first saying in the map (smallest Hawaiian word)
+    first() {
+        const sortedKeys = [...this.sayingMap.keys()].sort(); // Sort the keys (Hawaiian text)
+        return this.sayingMap.get(sortedKeys[0]); // Return the first saying
+    }
+
+    // Method to return the last saying in the map (largest Hawaiian word)
+    last() {
+        const sortedKeys = [...this.sayingMap.keys()].sort(); // Sort the keys (Hawaiian text)
+        return this.sayingMap.get(sortedKeys[sortedKeys.length - 1]); // Return the last saying
     }
 }
