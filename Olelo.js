@@ -47,7 +47,7 @@ class RedBlackTree {
         } 
         
         // After inserting, we need to balance the tree
-        node = _.balance(node);
+        node = this._balance(node);
         return node; // Return the node after balancing
     }
 
@@ -152,39 +152,43 @@ class RedBlackTree {
     }
 
     // Method to get the next smaller saying in the tree (the node with the next smaller Hawaiian phrase).
-    predecessor(hawaiian){
+    predecessor(saying) {
+        // Check if 'saying' is a Saying object or a string
+        let hawaiian = typeof saying === 'object' && saying !== null ? saying.hawaiian : saying;
+
         let current = this.root;
         let predecessor = null;
 
-        while(current){
-            if(hawaiian > current.saying.hawaiian){ // Saying comes after current node
-                predecessor = current; 
-                current = current.right;
+        while (current) {
+            if (hawaiian > current.saying.hawaiian) {
+                predecessor = current; // Update predecessor if we move right
+                current = current.right; // Move right to find larger predecessors
             } else {
-                current = current.left;
+                current = current.left; // Move left to find smaller nodes
             }
         }
-        
-        // Return the saying if it exist; Null if not.
-        return predecessor ? predecessor.saying : null;
+
+        return predecessor ? predecessor.saying : null; // Return the saying or null if no predecessor
     }
 
     // Method to get the next larger saying in the tree (the node with the next larger Hawaiian phrase).
-    successor(hawaiian){
+    successor(saying) {
+        // Check if 'saying' is a Saying object or a string
+        let hawaiian = typeof saying === 'object' && saying !== null ? saying.hawaiian : saying;
+
         let current = this.root;
         let successor = null;
 
-        while(current){
-            if(hawaiian < current.saying.hawiian){ // Saying comes before current node
-                successor = current;
-                current = current.left;
+        while (current) {
+            if (hawaiian < current.saying.hawaiian) {
+                successor = current; // Update successor if we move left
+                current = current.left; // Move left to find smaller successors
             } else {
-                current = current.right;
+                current = current.right; // Move right to find larger nodes
             }
         }
 
-        // Return the syaing if it exists; Null if not
-        return successor ? successor.saying : null;
+        return successor ? successor.saying : null; // Return the saying or null if no successor
     }
 }
 
@@ -241,23 +245,58 @@ class SayingsMap {
     searchEnglish(word) {
         return this.englishMap.has(word) ? Array.from(this.englishMap.get(word)) : [];
     }
+}
 
-    // Method to return the first saying in the map (smallest Hawaiian word)
+class OleloDatabase{
+    constructor() {
+        this.tree = new RedBlackTree();
+        this.map = new SayingsMap();
+    }
+
+    // Method to add a new saying to the database
+    insert(saying) {
+        this.tree.insert(saying);
+        this.map.addSaying(saying);
+    }
+
+    // Method to check if a saying exists in the database by its hawaiian text
+    member(hawaiian) {
+        return this.tree.member(hawaiian); // returns true if the saying is found and false if not
+    }
+
+    // Method that returns the first saying in the database
     first() {
-        const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
-        return this.hawaiianMap.get(sortedKeys[0]); // Return the first saying
+        return this.tree.first();
     }
 
-    // Method to return the last saying in the map (largest Hawaiian word)
+    // Method that returns the last saying in the database
     last() {
-        const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
-        return this.hawaiianMap.get(sortedKeys[sortedKeys.length - 1]); // Return the last saying
+        return this.tree.last();
     }
 
+    // Method that returns the next smaller saying in the database
+    predecessor(hawaiian) {
+        return this.tree.predecessor(hawaiian);
+    }
+
+    // Method that returns the next larger saying in the database
+    successor(hawaiian) {
+        return this.tree.successor(hawaiian);
+    }
+
+    // returning all sayings whose non-English version contains the given non-English word
+    MeHua(saying) {
+        return this.map.searchHawaiian(saying);
+    }
+
+    // returning all sayings whose English translation contains the given English word
+    WithWord(saying) {
+        return this.map.searchEnglish(saying);
+    }
 }
 
 // Test code
-const db = new SayingsMap();
+const db = new OleloDatabase();
 
 // Add some sayings to the database
 const saying1 = {
@@ -270,17 +309,17 @@ const saying2 = {
     english: "In language there is life"
 };
 
-db.addSaying(saying1);
-db.addSaying(saying2);
+db.insert(saying1);
+db.insert(saying2);
 
 // Test first and last 
 console.log(db.first()); // Output: saying1 (first in Hawaiian alphabetical order)
 console.log(db.last());  // Output: saying2 (last in Hawaiian alphabetical order)
 
 // Test predecessor and successor
-// console.log(db.predecessor(saying2)); // Output: saying1 (predecessor of saying2)
-// console.log(db.successor(saying1)); // Output: saying2 (successor of saying1)
+console.log(db.predecessor(saying2)); // Output: saying1 (predecessor of saying2)
+console.log(db.successor(saying1)); // Output: saying2 (successor of saying1)
 
 // Test search
-console.log(db.searchHawaiian("Aloha")); // Output: [saying1]
-console.log(db.searchEnglish("language")); // Output: [saying2]
+console.log(db.MeHua("Aloha")); // Output: [saying1]
+console.log(db.WithWord("language")); // Output: [saying2]
