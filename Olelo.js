@@ -192,25 +192,6 @@ class RedBlackTree {
     }
 }
 
-/* Inverted Index class, which allows for efficient searching of sayings containing a specific word.
-class InvertedIndex {
-    constructor() {
-        this.index = new Map(); // Initialize an empty map to store a word to sayings that contain that word
-    }
-
-    // Method to add a saying to the index
-    addSaying(saying, isHawaiian) {
-        // Split the saying into individual words, either from the Hawaiian or English text.
-
-        // For each word in the saying, add it to the index.
-    }
-
-    // Search the index for sayings containing a specific word.
-    search(word) {
-
-    }
-} */
-
 // Map-based approach to store sayings by Hawaiian and English words
 class SayingsMap {
     constructor() {
