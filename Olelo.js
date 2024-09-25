@@ -241,19 +241,6 @@ class SayingsMap {
     searchEnglish(word) {
         return this.englishMap.has(word) ? Array.from(this.englishMap.get(word)) : [];
     }
-
-    // Method to return the first saying in the map (smallest Hawaiian word)
-    first() {
-        const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
-        return this.hawaiianMap.get(sortedKeys[0]); // Return the first saying
-    }
-
-    // Method to return the last saying in the map (largest Hawaiian word)
-    last() {
-        const sortedKeys = Array.from(this.hawaiianMap.keys()).sort(); // Sort the keys (Hawaiian text)
-        return this.hawaiianMap.get(sortedKeys[sortedKeys.length - 1]); // Return the last saying
-    }
-
 }
 
 // Test code
